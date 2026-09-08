@@ -1,0 +1,5 @@
+What is the capital of France?;Paris|true;London|false;Berlin|false;Madrid|false
+Which planet is known as the Red Planet?;Venus|false;Mars|true;Jupiter|false;Saturn|false
+What is 2 + 2?;3|false;4|true;5|false;22|false
+Which language runs on the JVM?;Python|false;C++|false;Java|true;JavaScript|false
+Who created the Spring Framework?;Rod Johnson|true;James Gosling|false;Linus Torvalds|false;Guido van Rossum|false

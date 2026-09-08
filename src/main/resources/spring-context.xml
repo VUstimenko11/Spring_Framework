@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="questionDao" class="org.example.dao.CsvQuestionDao">
+        <constructor-arg name="resourceName" value="questions.csv"/>
+    </bean>
+
+    <bean id="questionService" class="org.example.service.QuestionServiceImpl">
+        <constructor-arg name="questionDao" ref="questionDao"/>
+    </bean>
+
+    <bean id="ioService" class="org.example.service.StreamsIOService"/>
+
+    <bean id="testRunnerService" class="org.example.service.TestRunnerServiceImpl">
+        <constructor-arg name="questionService" ref="questionService"/>
+        <constructor-arg name="ioService" ref="ioService"/>
+    </bean>
+
+</beans>
