@@ -1,8 +1,10 @@
 package org.example.dao;
 
+import org.example.config.AppProperties;
 import org.example.domain.Answer;
 import org.example.domain.Question;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,12 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Repository
 public class CsvQuestionDao implements QuestionDao {
 
     private final String resourceName;
 
-    public CsvQuestionDao(String resourceName) {
-        this.resourceName = resourceName;
+    public CsvQuestionDao(AppProperties appProperties) {
+        this.resourceName = appProperties.getTestFileName();
     }
 
     @Override
