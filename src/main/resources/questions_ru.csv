@@ -1,0 +1,5 @@
+Какая столица Франции?;Париж|true;Лондон|false;Берлин|false;Мадрид|false
+Какая планета известна как Красная планета?;Венера|false;Марс|true;Юпитер|false;Сатурн|false
+Сколько будет 2 + 2?;3|false;4|true;5|false;22|false
+Какой язык выполняется на JVM?;Python|false;C++|false;Java|true;JavaScript|false
+Кто создал Spring Framework?;Rod Johnson|true;James Gosling|false;Linus Torvalds|false;Guido van Rossum|false

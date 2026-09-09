@@ -14,18 +14,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 @Repository
 public class CsvQuestionDao implements QuestionDao {
 
-    private final String resourceName;
+    private final AppProperties appProperties;
 
     public CsvQuestionDao(AppProperties appProperties) {
-        this.resourceName = appProperties.getTestFileName();
+        this.appProperties = appProperties;
     }
 
     @Override
     public List<Question> findAll() {
+        String resourceName = appProperties.resolveQuestionsResourceName();
         try (InputStream inputStream = new ClassPathResource(resourceName).getInputStream();
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             return reader.lines()
@@ -59,7 +61,8 @@ public class CsvQuestionDao implements QuestionDao {
     private Answer parseAnswer(String rawAnswer) {
         String[] answerParts = rawAnswer.split("\\|");
         String answerText = answerParts[0].trim();
-        boolean correct = answerParts.length > 1 && Boolean.parseBoolean(answerParts[1].trim());
+        boolean correct = answerParts.length > 1
+                && Boolean.parseBoolean(answerParts[1].trim().toLowerCase(Locale.ROOT));
         return new Answer(answerText, correct);
     }
 }

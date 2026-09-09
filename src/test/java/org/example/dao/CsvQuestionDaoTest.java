@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -16,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CsvQuestionDaoTest {
 
     @Test
-    @DisplayName("Should read questions from classpath CSV resource")
+    @DisplayName("Should read questions from localized classpath CSV resource")
     void shouldReadQuestionsFromClasspathResource() {
-        QuestionDao questionDao = new CsvQuestionDao(new AppProperties("questions-test.csv", 80));
+        QuestionDao questionDao = new CsvQuestionDao(appProperties("questions-test", Locale.ENGLISH));
 
         List<Question> questions = questionDao.findAll();
 
@@ -33,7 +34,7 @@ class CsvQuestionDaoTest {
     @Test
     @DisplayName("Should throw when CSV resource is missing")
     void shouldThrowWhenResourceIsMissing() {
-        QuestionDao questionDao = new CsvQuestionDao(new AppProperties("missing-questions.csv", 80));
+        QuestionDao questionDao = new CsvQuestionDao(appProperties("missing-questions", Locale.ENGLISH));
 
         assertThrows(QuestionReadException.class, questionDao::findAll);
     }
@@ -41,8 +42,16 @@ class CsvQuestionDaoTest {
     @Test
     @DisplayName("Should throw when CSV line has no answers")
     void shouldThrowWhenCsvLineIsInvalid() {
-        QuestionDao questionDao = new CsvQuestionDao(new AppProperties("invalid-questions.csv", 80));
+        QuestionDao questionDao = new CsvQuestionDao(appProperties("invalid-questions", Locale.ENGLISH));
 
         assertThrows(QuestionReadException.class, questionDao::findAll);
+    }
+
+    private AppProperties appProperties(String fileName, Locale locale) {
+        AppProperties properties = new AppProperties();
+        properties.setLocale(locale);
+        properties.getTest().setFileName(fileName);
+        properties.getTest().setPassingScore(80);
+        return properties;
     }
 }

@@ -11,8 +11,9 @@ class StudentServiceImplTest {
     @Test
     @DisplayName("Should ask last name and first name")
     void shouldAskStudentCredentials() {
-        RecordingIOService ioService = new RecordingIOService()
+        RecordingIOService recordingIOService = new RecordingIOService()
                 .withStringAnswers("Ivanov", "Ivan");
+        LocalizedIOService ioService = TestLocalizedIOFactory.create(recordingIOService);
         StudentService studentService = new StudentServiceImpl(ioService);
 
         Student student = studentService.askStudentCredentials();

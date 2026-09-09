@@ -16,7 +16,8 @@ class TestServiceImplTest {
     @Test
     @DisplayName("Should count correct answers entered by student")
     void shouldCountCorrectAnswers() {
-        RecordingIOService ioService = new RecordingIOService().withIntAnswers(2, 1);
+        RecordingIOService recordingIOService = new RecordingIOService().withIntAnswers(2, 1);
+        LocalizedIOService ioService = TestLocalizedIOFactory.create(recordingIOService);
         QuestionService questionService = () -> List.of(
                 new Question("2 + 2?", List.of(
                         new Answer("3", false),
@@ -38,7 +39,8 @@ class TestServiceImplTest {
     @Test
     @DisplayName("Should count zero when answers are wrong")
     void shouldCountZeroWhenAnswersAreWrong() {
-        RecordingIOService ioService = new RecordingIOService().withIntAnswers(1, 2);
+        RecordingIOService recordingIOService = new RecordingIOService().withIntAnswers(1, 2);
+        LocalizedIOService ioService = TestLocalizedIOFactory.create(recordingIOService);
         QuestionService questionService = () -> List.of(
                 new Question("2 + 2?", List.of(
                         new Answer("3", false),
