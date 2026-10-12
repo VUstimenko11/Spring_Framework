@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ResultServiceImpl implements ResultService {
 
-    private final IOService ioService;
+    private final LocalizedIOService ioService;
     private final AppProperties appProperties;
 
-    public ResultServiceImpl(IOService ioService, AppProperties appProperties) {
+    public ResultServiceImpl(LocalizedIOService ioService, AppProperties appProperties) {
         this.ioService = ioService;
         this.appProperties = appProperties;
     }
@@ -21,13 +21,14 @@ public class ResultServiceImpl implements ResultService {
         int rightAnswersCount = testResult.getRightAnswersCount();
         int requiredRightAnswers = requiredRightAnswers(questionsCount);
         boolean passed = rightAnswersCount >= requiredRightAnswers;
+        String status = ioService.getMessage(passed ? "result.passed" : "result.failed");
 
-        ioService.printLine("Test result:");
-        ioService.printFormattedLine("Student: %s", testResult.getStudent().getFullName());
-        ioService.printFormattedLine("Correct answers: %d of %d", rightAnswersCount, questionsCount);
-        ioService.printFormattedLine("Required to pass: %d of %d (%d%%)",
+        ioService.printLocalized("result.header");
+        ioService.printLocalized("result.student", testResult.getStudent().getFullName());
+        ioService.printLocalized("result.correct", rightAnswersCount, questionsCount);
+        ioService.printLocalized("result.required",
                 requiredRightAnswers, questionsCount, appProperties.getPassingScore());
-        ioService.printFormattedLine("Status: %s", passed ? "PASSED" : "FAILED");
+        ioService.printLocalized("result.status", status);
     }
 
     private int requiredRightAnswers(int questionsCount) {

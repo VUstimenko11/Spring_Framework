@@ -1,25 +1,58 @@
 package org.example.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@Component
+import java.util.Locale;
+
+@ConfigurationProperties(prefix = "application")
 public class AppProperties {
 
-    private final String testFileName;
-    private final int passingScore;
+    private Locale locale = Locale.ENGLISH;
+    private TestProps test = new TestProps();
 
-    public AppProperties(@Value("${application.test.file-name}") String testFileName,
-                         @Value("${application.test.passing-score}") int passingScore) {
-        this.testFileName = testFileName;
-        this.passingScore = passingScore;
+    public Locale getLocale() {
+        return locale;
     }
 
-    public String getTestFileName() {
-        return testFileName;
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    public TestProps getTest() {
+        return test;
+    }
+
+    public void setTest(TestProps test) {
+        this.test = test;
     }
 
     public int getPassingScore() {
-        return passingScore;
+        return test.getPassingScore();
+    }
+
+    public String resolveQuestionsResourceName() {
+        return test.getFileName() + "_" + locale.getLanguage() + ".csv";
+    }
+
+    public static class TestProps {
+
+        private String fileName = "questions";
+        private int passingScore = 80;
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
+
+        public int getPassingScore() {
+            return passingScore;
+        }
+
+        public void setPassingScore(int passingScore) {
+            this.passingScore = passingScore;
+        }
     }
 }
