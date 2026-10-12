@@ -1,0 +1,11 @@
+spring:
+  messages:
+    basename: messages
+    encoding: UTF-8
+    fallback-to-system-locale: false
+
+application:
+  locale: en
+  test:
+    file-name: questions-test
+    passing-score: 80

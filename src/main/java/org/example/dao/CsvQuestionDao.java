@@ -1,8 +1,10 @@
 package org.example.dao;
 
+import org.example.config.AppProperties;
 import org.example.domain.Answer;
 import org.example.domain.Question;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,17 +14,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
+@Repository
 public class CsvQuestionDao implements QuestionDao {
 
-    private final String resourceName;
+    private final AppProperties appProperties;
 
-    public CsvQuestionDao(String resourceName) {
-        this.resourceName = resourceName;
+    public CsvQuestionDao(AppProperties appProperties) {
+        this.appProperties = appProperties;
     }
 
     @Override
     public List<Question> findAll() {
+        String resourceName = appProperties.resolveQuestionsResourceName();
         try (InputStream inputStream = new ClassPathResource(resourceName).getInputStream();
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             return reader.lines()
@@ -56,7 +61,8 @@ public class CsvQuestionDao implements QuestionDao {
     private Answer parseAnswer(String rawAnswer) {
         String[] answerParts = rawAnswer.split("\\|");
         String answerText = answerParts[0].trim();
-        boolean correct = answerParts.length > 1 && Boolean.parseBoolean(answerParts[1].trim());
+        boolean correct = answerParts.length > 1
+                && Boolean.parseBoolean(answerParts[1].trim().toLowerCase(Locale.ROOT));
         return new Answer(answerText, correct);
     }
 }
