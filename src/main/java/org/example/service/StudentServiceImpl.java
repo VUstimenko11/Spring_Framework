@@ -6,16 +6,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private final IOService ioService;
+    private final LocalizedIOService ioService;
 
-    public StudentServiceImpl(IOService ioService) {
+    public StudentServiceImpl(LocalizedIOService ioService) {
         this.ioService = ioService;
     }
 
     @Override
     public Student askStudentCredentials() {
-        String lastName = ioService.readStringWithPrompt("Please enter your last name:");
-        String firstName = ioService.readStringWithPrompt("Please enter your first name:");
+        String lastName = ioService.readStringLocalized("student.last-name");
+        String firstName = ioService.readStringLocalized("student.first-name");
         return new Student(firstName, lastName);
     }
 }

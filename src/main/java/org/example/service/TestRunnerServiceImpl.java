@@ -8,12 +8,12 @@ public class TestRunnerServiceImpl implements TestRunnerService {
     private final StudentService studentService;
     private final TestService testService;
     private final ResultService resultService;
-    private final IOService ioService;
+    private final LocalizedIOService ioService;
 
     public TestRunnerServiceImpl(StudentService studentService,
                                  TestService testService,
                                  ResultService resultService,
-                                 IOService ioService) {
+                                 LocalizedIOService ioService) {
         this.studentService = studentService;
         this.testService = testService;
         this.resultService = resultService;
@@ -22,7 +22,7 @@ public class TestRunnerServiceImpl implements TestRunnerService {
 
     @Override
     public void run() {
-        ioService.printLine("Student testing application");
+        ioService.printLocalized("app.title");
         ioService.printLine("");
         var student = studentService.askStudentCredentials();
         var testResult = testService.executeTestFor(student);

@@ -12,7 +12,8 @@ class TestRunnerServiceImplTest {
     @Test
     @DisplayName("Should ask student credentials, execute test and show result")
     void shouldRunFullTestingFlow() {
-        RecordingIOService ioService = new RecordingIOService();
+        RecordingIOService recordingIOService = new RecordingIOService();
+        LocalizedIOService ioService = TestLocalizedIOFactory.create(recordingIOService);
         Student student = new Student("Ivan", "Ivanov");
         TestResult testResult = new TestResult(student, 4, 5);
 
@@ -39,6 +40,6 @@ class TestRunnerServiceImplTest {
         assertTrue(studentAsked[0]);
         assertTrue(testExecuted[0]);
         assertTrue(resultShown[0]);
-        assertTrue(ioService.getPrintedLines().contains("Student testing application"));
+        assertTrue(recordingIOService.getPrintedLines().contains("Student testing application"));
     }
 }

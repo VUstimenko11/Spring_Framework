@@ -11,10 +11,10 @@ import java.util.List;
 @Service
 public class TestServiceImpl implements TestService {
 
-    private final IOService ioService;
+    private final LocalizedIOService ioService;
     private final QuestionService questionService;
 
-    public TestServiceImpl(IOService ioService, QuestionService questionService) {
+    public TestServiceImpl(LocalizedIOService ioService, QuestionService questionService) {
         this.ioService = ioService;
         this.questionService = questionService;
     }
@@ -25,7 +25,7 @@ public class TestServiceImpl implements TestService {
         int rightAnswersCount = 0;
 
         ioService.printLine("");
-        ioService.printLine("Please answer the questions:");
+        ioService.printLocalized("test.please-answer");
         ioService.printLine("");
 
         int questionNumber = 1;
@@ -45,11 +45,11 @@ public class TestServiceImpl implements TestService {
             ioService.printFormattedLine("   %d) %s", i + 1, answers.get(i).getText());
         }
 
-        int answerNumber = ioService.readIntForRangeWithPrompt(
+        int answerNumber = ioService.readIntLocalized(
                 1,
                 answers.size(),
-                "Enter the answer number:",
-                "Invalid answer number. Please try again."
+                "test.enter-answer",
+                "test.invalid-answer"
         );
 
         ioService.printLine("");
